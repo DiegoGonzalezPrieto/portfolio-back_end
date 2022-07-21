@@ -79,7 +79,7 @@ public class AuthController {
        
     }
     
-	@CrossOrigin
+	
     @PostMapping("/login")
     public ResponseEntity<JwtDto> loginUser(@Valid @RequestBody LoginUser loginUser, BindingResult bindingResult){
         if (bindingResult.hasErrors())

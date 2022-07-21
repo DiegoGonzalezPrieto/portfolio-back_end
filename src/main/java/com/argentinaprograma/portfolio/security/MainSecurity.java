@@ -1,5 +1,7 @@
 package com.argentinaprograma.portfolio.security;
 
+import java.util.Arrays;
+
 import com.argentinaprograma.portfolio.security.jwt.JwtEntryPoint;
 import com.argentinaprograma.portfolio.security.jwt.JwtTokenFilter;
 import com.argentinaprograma.portfolio.security.method.CustomMethodSecurityExpressionHandler;
@@ -19,6 +21,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
 
 @Configuration
@@ -58,6 +63,20 @@ public class MainSecurity {
         
         return http.build();
     }
+
+
+	/* return type missmatch
+	 * from : https://docs.spring.io/spring-security/reference/servlet/integrations/cors.html
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.setAllowedOrigins(Arrays.asList("*"));
+		configuration.setAllowedMethods(Arrays.asList("*"));
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
+	}
+	*/
 /*
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationManagerBuilder builder) throws Exception {
