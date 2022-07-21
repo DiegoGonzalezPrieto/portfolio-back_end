@@ -32,7 +32,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "*")
 public class AuthController {
 
     @Autowired
@@ -50,6 +49,7 @@ public class AuthController {
     @Autowired
     JwtProvider jwtProvider;
     
+	@CrossOrigin
     @PostMapping("/new")
     public ResponseEntity<?> newUser(@Valid @RequestBody NewUser newUser, BindingResult bindingResult){
         
@@ -79,6 +79,7 @@ public class AuthController {
        
     }
     
+	@CrossOrigin
     @PostMapping("/login")
     public ResponseEntity<JwtDto> loginUser(@Valid @RequestBody LoginUser loginUser, BindingResult bindingResult){
         if (bindingResult.hasErrors())
