@@ -43,8 +43,8 @@ public class MainSecurity {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
-                .authorizeRequests()
+        http.cors(cors -> cors.disable())
+				.authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers(HttpMethod.GET, "**").permitAll()
                 .anyRequest().authenticated()
