@@ -49,7 +49,6 @@ public class AuthController {
     @Autowired
     JwtProvider jwtProvider;
     
-	@CrossOrigin
     @PostMapping("/new")
     public ResponseEntity<?> newUser(@Valid @RequestBody NewUser newUser, BindingResult bindingResult){
         
