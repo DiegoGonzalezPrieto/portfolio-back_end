@@ -57,7 +57,7 @@ public class SkillController {
         }
     }
     
-    @PreAuthorize("isPerson(#personId)")
+    @PreAuthorize("isPerson(#personId) || isAdmin()")
     @PostMapping ("/person")
     public ResponseEntity<Skill> saveSkill(@RequestParam(value = "id") Long personId, @RequestBody Skill skillReq) {
         Person p = personService.findPerson(personId);
@@ -72,7 +72,7 @@ public class SkillController {
         
         Person p = personService.findPerson(user.getPerson().getId());
         Skill s = skillService.findSkill(id);
-        if (! p.getSkills().contains(s)){
+        if (! p.getSkills().contains(s) && p.getId() != 1){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         skillService.deleteSkill(id) ;
@@ -84,7 +84,9 @@ public class SkillController {
         @AuthenticationPrincipal UserSecurity user){
         
         Skill skill = skillService.findSkill(id);
-         if (skill.getPerson().getId() != user.getPerson().getId()){
+		Person p = user.getPerson();
+
+         if (skill.getPerson().getId() != p.getId() && p.getId() != 1){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         

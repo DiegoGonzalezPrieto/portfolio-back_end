@@ -61,7 +61,7 @@ public class LangSkillController {
         }
     }
 
-    @PreAuthorize("isPerson(#personId)")
+    @PreAuthorize("isPerson(#personId) || isAdmin()")
     @PostMapping ("/person")
     public ResponseEntity<LangSkill> saveLangSkill(@RequestParam(value = "id") Long personId, @RequestBody LangSkill lSkillReq) {
         Person p = personService.findPerson(personId);
@@ -94,7 +94,8 @@ public class LangSkillController {
             @AuthenticationPrincipal UserSecurity user) {
         Person p = personService.findPerson(user.getPerson().getId());
         LangSkill ls = langSkillService.findLangSkill(id);
-        if (! p.getLanguages().contains(ls)){
+
+        if (! p.getLanguages().contains(ls) && p.getId() != 1){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         
@@ -106,8 +107,9 @@ public class LangSkillController {
     public ResponseEntity<LangSkill> editLangSkill(@RequestParam(value= "id") Long id, @RequestBody LangSkill lSkillReq,
             @AuthenticationPrincipal UserSecurity user){
         LangSkill lSkill = langSkillService.findLangSkill(id);
+		Person p = user.getPerson();
         
-        if (lSkill.getPerson().getId() != user.getPerson().getId()){
+        if (lSkill.getPerson().getId() != p.getId() && p.getId() != 1){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         

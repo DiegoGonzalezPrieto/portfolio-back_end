@@ -60,7 +60,7 @@ public class ContactInfoController {
         }
     }
 
-    @PreAuthorize("isPerson(#personId)")
+    @PreAuthorize("isPerson(#personId) || isAdmin()")
     @PostMapping ("/person")
     public ResponseEntity<ContactInfo> saveContactInfo(@RequestParam(value = "id") Long personId, @RequestBody ContactInfo cInfoReq) {
         Person p = personService.findPerson(personId);
@@ -76,7 +76,7 @@ public class ContactInfoController {
         
         Person p = personService.findPerson(user.getPerson().getId());
         ContactInfo ci = cInfoService.findContactInfo(id);
-        if (! p.getContactInfos().contains(ci)){
+        if (! p.getContactInfos().contains(ci) && p.getId() != 1){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         cInfoService.deleteContactInfo(id) ;
@@ -87,8 +87,9 @@ public class ContactInfoController {
     public ResponseEntity<ContactInfo> editContactInfo(@RequestParam(value= "id") Long id, @RequestBody ContactInfo cInfoReq,
             @AuthenticationPrincipal UserSecurity user){
         ContactInfo cInfo = cInfoService.findContactInfo(id);
+		Person p = user.getPerson();
         
-        if (cInfo.getPerson().getId() != user.getPerson().getId()){
+        if (cInfo.getPerson().getId() != p.getId() && p.getId() != 1){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         

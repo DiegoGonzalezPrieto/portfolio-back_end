@@ -24,32 +24,16 @@ public class CustomMethodSecurityExpressionRoot extends
         Person person = user.getPerson();
         return personId == person.getId();
     }
-    
-    
-    /*
-    
-    // method doesn't work because 
-    // access to complete Person object seems to be unavailable
-    
-    public boolean isPersonElement(String attr, Long id) {
-        
-        System.out.println("##############\nisPersonElement(attr, id): checking...");
-        
+
+	public boolean isAdmin(){{
         UserSecurity user = ((UserSecurity) this.getPrincipal());
         Person person = user.getPerson();
-        
-        // gets proxies....
-        List<? extends PersonElement> attributeList = person.getByAttributeName(attr);
-        System.out.println("###############\ngot attributes OK");
-        for (PersonElement personElement : attributeList) {
-            if (personElement.getId() == id){
-                System.out.println("###\n###\n####\nchecked and returned true");
-                return true;
-            } 
-        }
-        return false;
-    }
-    */
+		System.out.println("########");
+		System.out.println(person.getId());
+        return person.getId() == 1;
+	}}
+    
+    
     
     @Override
     public Object getThis() {

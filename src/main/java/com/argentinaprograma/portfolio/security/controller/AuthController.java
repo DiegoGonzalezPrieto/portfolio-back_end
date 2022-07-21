@@ -24,7 +24,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,18 +49,17 @@ public class AuthController {
     JwtProvider jwtProvider;
     
     @PostMapping("/new")
-    public ResponseEntity<?> newUser(@Valid @RequestBody NewUser newUser, BindingResult bindingResult){
+    public ResponseEntity<Message> newUser(@Valid @RequestBody NewUser newUser, BindingResult bindingResult){
         
         if (bindingResult.hasErrors()){
-            return new ResponseEntity("Invalid email, username or other information.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Message>(new Message("Invalid email, username or other information."),
+					HttpStatus.BAD_REQUEST);
         }
-            // TODO : change response entity with a custom message DTO?
-        
             if (userService.existsByUserName(newUser.getUserName())){
-            return new ResponseEntity("Username is already registered.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Message>(new Message("Username is already registered."), HttpStatus.BAD_REQUEST);
         }
         if (userService.existsByEmail(newUser.getEmail())){
-            return new ResponseEntity("Email is already registered.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Message>(new Message("Email is already registered."), HttpStatus.BAD_REQUEST);
         }
         
         User user =
@@ -69,20 +67,23 @@ public class AuthController {
                     passwordEncoder.encode(newUser.getPassword()));
         Set<Role> roles = new HashSet<>();
             roles.add(roleService.getByRoleName(RoleName.ROLE_USER).get());
-        if (newUser.getRoles().contains("admin"))
+        /*
+		 * admin creation disabled
+		if (newUser.getRoles().contains("admin"))
             roles.add(roleService.getByRoleName(RoleName.ROLE_ADMIN).get());
-        
+        */
+
         user.setRoles(roles);
         userService.save(user);
-        return new ResponseEntity(new Message("Sign up completed."), HttpStatus.CREATED);   
+        return new ResponseEntity<Message>(new Message("Sign up completed."), HttpStatus.CREATED);   
        
     }
     
 	
     @PostMapping("/login")
-    public ResponseEntity<JwtDto> loginUser(@Valid @RequestBody LoginUser loginUser, BindingResult bindingResult){
+    public ResponseEntity<?> loginUser(@Valid @RequestBody LoginUser loginUser, BindingResult bindingResult){
         if (bindingResult.hasErrors())
-            return new ResponseEntity("Login failed.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Message>(new Message("Login failed."), HttpStatus.BAD_REQUEST);
         Authentication auth =
                 authManager.authenticate(new UsernamePasswordAuthenticationToken(
                         loginUser.getUserName(), loginUser.getPassword()));
@@ -94,7 +95,7 @@ public class AuthController {
         
         UserDetails userDetails = (UserDetails) auth.getPrincipal();
         JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities(), personId.toString());
-        return new ResponseEntity(jwtDto, HttpStatus.OK);
+        return new ResponseEntity<JwtDto>(jwtDto, HttpStatus.OK);
         
         
     }

@@ -56,7 +56,7 @@ public class EducationController {
         }
     }
 
-    @PreAuthorize("isPerson(#personId)")
+    @PreAuthorize("isPerson(#personId) || isAdmin()")
     @PostMapping ("/person")
     public ResponseEntity<Education> saveEducation(@RequestParam(value = "id") Long personId, @RequestBody Education eduReq) {
         Person p = personService.findPerson(personId);
@@ -73,7 +73,7 @@ public class EducationController {
         
         Person p = personService.findPerson(user.getPerson().getId());
         Education e = eduService.findEducation(id);
-        if (! p.getEducations().contains(e)){
+        if (! p.getEducations().contains(e) && p.getId() != 1){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         eduService.deleteEducation(id);
@@ -86,8 +86,9 @@ public class EducationController {
             @AuthenticationPrincipal UserSecurity user){
         
         Education edu = eduService.findEducation(id);
+		Person p = user.getPerson();
         
-        if (edu.getPerson().getId() != user.getPerson().getId()){
+        if (edu.getPerson().getId() != p.getId() && p.getId() != 1 ){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         

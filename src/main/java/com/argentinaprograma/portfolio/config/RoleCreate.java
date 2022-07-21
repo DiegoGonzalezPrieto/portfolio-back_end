@@ -1,5 +1,4 @@
 /*
-
 package com.argentinaprograma.portfolio.config;
 
 import com.argentinaprograma.portfolio.security.enums.RoleName;
@@ -22,7 +21,6 @@ public class RoleCreate implements CommandLineRunner {
         
         roleService.save(adminRole);
         roleService.save(userRole);
-    }
-
+	}
 }
 */

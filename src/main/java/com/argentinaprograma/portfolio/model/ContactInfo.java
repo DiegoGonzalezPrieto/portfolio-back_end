@@ -21,7 +21,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "contact_infos")
-public class ContactInfo extends PersonElement{
+public class ContactInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +33,6 @@ public class ContactInfo extends PersonElement{
     
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
-//  @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
     @JsonIgnore
     private Person person;
 }

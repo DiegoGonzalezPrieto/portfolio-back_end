@@ -56,7 +56,7 @@ public class WorkExpController {
         }
     }
 
-    @PreAuthorize("isPerson(#personId)")
+    @PreAuthorize("isPerson(#personId) || isAdmin()")
     @PostMapping ("/person")
     public ResponseEntity<WorkExp> saveWorkExp(@RequestParam(value = "id") Long personId, @RequestBody WorkExp workExpReq) {
         Person p = personService.findPerson(personId);
@@ -71,7 +71,7 @@ public class WorkExpController {
         
         Person p = personService.findPerson(user.getPerson().getId());
         WorkExp we = workExpService.findWorkExp(id);
-        if (! p.getWorkExps().contains(we)){
+        if (! p.getWorkExps().contains(we) && p.getId() != 1){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         workExpService.deleteWorkExp(id) ;
@@ -82,12 +82,12 @@ public class WorkExpController {
     public ResponseEntity<WorkExp> editWorkExp(@RequestParam(value= "id") Long id, @RequestBody WorkExp workExpReq,
             @AuthenticationPrincipal UserSecurity user){
         WorkExp wexp = workExpService.findWorkExp(id);
+		Person p = user.getPerson();
         
-         if (wexp.getPerson().getId() != user.getPerson().getId()){
+         if (wexp.getPerson().getId() != p.getId() && p.getId() != 1){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         workExpReq.setPerson(wexp.getPerson());
-        //workExpReq.setId(wexp.getId());
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setSkipNullEnabled(true).setMatchingStrategy(MatchingStrategies.STRICT);
         modelMapper.map(workExpReq, wexp);

@@ -57,7 +57,7 @@ public class ProjectController {
         }
     }
     
-    @PreAuthorize("isPerson(#personId)")
+    @PreAuthorize("isPerson(#personId) || isAdmin()")
     @PostMapping ("/person")
     public ResponseEntity<Project> saveProject(@RequestParam(value = "id") Long personId, @RequestBody Project projectReq) {
         Person p = personService.findPerson(personId);
@@ -72,7 +72,7 @@ public class ProjectController {
         
         Person p = personService.findPerson(user.getPerson().getId());
         Project project = projectService.findProject(id);
-        if (! p.getProjects().contains(project)){
+        if (! p.getProjects().contains(project) && p.getId() != 1){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         
@@ -85,7 +85,8 @@ public class ProjectController {
             @AuthenticationPrincipal UserSecurity user){
         
         Project project = projectService.findProject(id);
-        if (project.getPerson().getId() != user.getPerson().getId()){
+		Person p = user.getPerson();
+        if (project.getPerson().getId() != p.getId() && p.getId() != 1){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         

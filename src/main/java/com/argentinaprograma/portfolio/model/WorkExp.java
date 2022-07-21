@@ -23,7 +23,7 @@ import org.springframework.lang.Nullable;
 @Data
 @NoArgsConstructor
 @Table(name = "work_exp")
-public class WorkExp extends PersonElement{
+public class WorkExp {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -21,7 +21,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "lang_skills")
-public class LangSkill extends PersonElement{
+public class LangSkill {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

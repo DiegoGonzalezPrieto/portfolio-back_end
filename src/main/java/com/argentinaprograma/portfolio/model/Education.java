@@ -25,7 +25,7 @@ import org.springframework.lang.Nullable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "educations")
-public class Education extends PersonElement{
+public class Education {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

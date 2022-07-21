@@ -15,7 +15,6 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 
 @Entity
 @Data
@@ -38,12 +37,6 @@ public class Person {
     @OneToOne(cascade = CascadeType.ALL)
     private Image backPic;
     
-    // Auth TODO : delete?
-    @OneToOne(mappedBy = "person")
-    @JsonIgnore
-    private AppUser user;
-    
-    // TODO : map User relationship?
     
     // Attributes
     @ManyToOne
