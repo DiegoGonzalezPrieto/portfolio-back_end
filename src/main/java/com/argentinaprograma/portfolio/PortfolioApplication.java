@@ -21,11 +21,11 @@ public WebMvcConfigurer corsConfigurer() {
 
 			//Esto es para el Localhost
 
-			registry.addMapping("/**").allowedOrigins("http://localhost:4200").allowedMethods("*").allowedHeaders("*");
+//			registry.addMapping("/**").allowedOrigins("http://localhost:4200").allowedMethods("*").allowedHeaders("*");
 
 			//Esto es para la nube
 
-			//registry.addMapping("/**").allowedOrigins("").allowedMethods("*").allowedHeaders("*");
+			registry.addMapping("/**").allowedOrigins("").allowedMethods("*").allowedHeaders("*");
 
 
 			}
