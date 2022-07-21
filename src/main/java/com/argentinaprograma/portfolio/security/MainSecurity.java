@@ -49,7 +49,7 @@ public class MainSecurity {
 	//trying to disable cors and csrf
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors(cors -> cors.disable()).csrf(csrf -> csrf.disable())
+        http.cors().and().csrf().and()
 				.authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers(HttpMethod.GET, "**").permitAll()
