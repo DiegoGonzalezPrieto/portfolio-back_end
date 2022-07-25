@@ -79,19 +79,24 @@ public class WorkExpController {
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<WorkExp> editWorkExp(@RequestParam(value= "id") Long id, @RequestBody WorkExp workExpReq,
+    public ResponseEntity<?> editWorkExp(@RequestParam(value= "id") Long id, @RequestBody WorkExp workExpReq,
             @AuthenticationPrincipal UserSecurity user){
         WorkExp wexp = workExpService.findWorkExp(id);
 		Person p = user.getPerson();
-        
-         if (wexp.getPerson().getId() != p.getId() && p.getId() != 1){
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
-        workExpReq.setPerson(wexp.getPerson());
-        ModelMapper modelMapper = new ModelMapper();
-        modelMapper.getConfiguration().setSkipNullEnabled(true).setMatchingStrategy(MatchingStrategies.STRICT);
-        modelMapper.map(workExpReq, wexp);
 
-        return new ResponseEntity<>(workExpService.saveWorkExp(wexp), HttpStatus.OK);
-    }
+		if (wexp.getPerson().getId() != p.getId() && p.getId() != 1){
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+		try {
+			workExpReq.setPerson(wexp.getPerson());
+			ModelMapper modelMapper = new ModelMapper();
+			modelMapper.getConfiguration().setSkipNullEnabled(true).setMatchingStrategy(MatchingStrategies.STRICT);
+			modelMapper.map(workExpReq, wexp);
+
+			return new ResponseEntity<>(workExpService.saveWorkExp(wexp), HttpStatus.OK);
+
+		} catch (Exception e){
+			return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }
