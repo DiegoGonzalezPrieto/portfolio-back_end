@@ -32,9 +32,9 @@ public class Person {
     private String briefCv;
     
     // Images
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)
     private Image profPic;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)
     private Image backPic;
     
     
@@ -42,27 +42,27 @@ public class Person {
     @ManyToOne
     private City city;
     
-    @OneToMany(mappedBy="person")
+    @OneToMany(orphanRemoval = true, mappedBy="person")
     @JsonIgnore
     private List<WorkExp> workExps = new ArrayList<WorkExp>();
     
-    @OneToMany(mappedBy="person")
+    @OneToMany(orphanRemoval = true, mappedBy="person")
     @JsonIgnore
     private List<Education> educations = new ArrayList<Education>();
     
-    @OneToMany(mappedBy="person")
+    @OneToMany(orphanRemoval = true, mappedBy="person")
     @JsonIgnore
     private List<Project> projects = new ArrayList<Project>();
     
-    @OneToMany(mappedBy="person")
+    @OneToMany(orphanRemoval = true, mappedBy="person")
     @JsonIgnore
     private List<Skill> skills = new ArrayList<Skill>();
     
-    @OneToMany(mappedBy="person")
+    @OneToMany(orphanRemoval = true, mappedBy="person")
     @JsonIgnore
     private List<LangSkill> languages = new ArrayList<LangSkill>();
     
-    @OneToMany(mappedBy="person")
+    @OneToMany(orphanRemoval = true, mappedBy="person")
     @JsonIgnore
     private List<ContactInfo> contactInfos = new ArrayList<ContactInfo>();
     
