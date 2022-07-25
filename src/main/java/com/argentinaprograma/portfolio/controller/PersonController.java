@@ -75,9 +75,6 @@ public class PersonController {
         }
     }
 
-    // TODO: image modify logic. delete unused images. -> orphanRemoval?
-    // url as comparison attribute?
-    
     @PreAuthorize("isPerson(#id) || isAdmin()")
     @PutMapping ("/edit")
     public ResponseEntity<Person> editPerson(@RequestParam(value= "id") Long id, @RequestBody Person personReq){
