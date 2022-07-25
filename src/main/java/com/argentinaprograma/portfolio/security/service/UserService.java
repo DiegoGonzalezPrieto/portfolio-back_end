@@ -17,6 +17,10 @@ public class UserService {
     public Optional<User> getByUserName(String userName){
         return userRepository.findByUserName(userName);
     }
+	
+	public Optional<User> getById(int id){
+		return userRepository.findById(id);
+	}
     
     public boolean existsByUserName(String userName){
         return userRepository.existsByUserName(userName);
@@ -29,5 +33,9 @@ public class UserService {
     public void save(User user){
         userRepository.save(user);
     }
+
+	public void deleteUser(int id){
+		 userRepository.deleteById(id);
+	}
     
 }
