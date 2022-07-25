@@ -1,6 +1,8 @@
 package com.argentinaprograma.portfolio.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -42,27 +44,27 @@ public class Person {
     @ManyToOne
     private City city;
     
-    @OneToMany(orphanRemoval = true, mappedBy="person")
+    @OneToMany(mappedBy="person", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<WorkExp> workExps = new ArrayList<WorkExp>();
     
-    @OneToMany(orphanRemoval = true, mappedBy="person")
+    @OneToMany( mappedBy="person", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Education> educations = new ArrayList<Education>();
     
-    @OneToMany(orphanRemoval = true, mappedBy="person")
+    @OneToMany( mappedBy="person", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Project> projects = new ArrayList<Project>();
     
-    @OneToMany(orphanRemoval = true, mappedBy="person")
+    @OneToMany( mappedBy="person", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Skill> skills = new ArrayList<Skill>();
     
-    @OneToMany(orphanRemoval = true, mappedBy="person")
+    @OneToMany( mappedBy="person", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<LangSkill> languages = new ArrayList<LangSkill>();
     
-    @OneToMany(orphanRemoval = true, mappedBy="person")
+    @OneToMany(mappedBy="person", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<ContactInfo> contactInfos = new ArrayList<ContactInfo>();
     

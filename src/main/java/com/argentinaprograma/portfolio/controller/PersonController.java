@@ -94,10 +94,27 @@ public class PersonController {
                 personReq.setCity(null);
             }   
         }
+
+		System.out.println("########");
+		System.out.println("########");
+		System.out.println("personReq:");
+		System.out.println(personReq.toString());
+		System.out.println("person (before mapping)");
+		System.out.println(personReq.toString());
         
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setSkipNullEnabled(true).setMatchingStrategy(MatchingStrategies.STRICT);
         modelMapper.map(personReq, person);
+
+		// TODO : remove logging:
+
+		System.out.println("########");
+		System.out.println("########");
+		System.out.println("personReq:");
+		System.out.println(personReq.toString());
+		System.out.println("person (will be saved)");
+		System.out.println(personReq.toString());
+
 
         return new ResponseEntity<>(personService.savePerson(person), HttpStatus.OK);
     }
