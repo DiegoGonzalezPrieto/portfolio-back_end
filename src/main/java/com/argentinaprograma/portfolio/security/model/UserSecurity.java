@@ -17,6 +17,7 @@ public class UserSecurity implements UserDetails {
     private String email;
     private String password;
     private Person person;
+	private int userId;
     private Collection<? extends GrantedAuthority> authorities;
     
 
@@ -27,7 +28,7 @@ public class UserSecurity implements UserDetails {
                 user.getRoles().stream().map(role -> new SimpleGrantedAuthority(
                 role.getRoleName().name())).collect(Collectors.toList());
         
-        return new UserSecurity(user.getName(), user.getUserName(), user.getEmail(), user.getPassword(), user.getPerson(), authorities);
+        return new UserSecurity(user.getName(), user.getUserName(), user.getEmail(), user.getPassword(), user.getPerson(), user.getId(), authorities);
     }
     
     @Override
@@ -75,6 +76,10 @@ public class UserSecurity implements UserDetails {
     
     public Person getPerson(){
         return person;
+    }
+
+    public int getUserId(){
+        return userId;
     }
     
 }

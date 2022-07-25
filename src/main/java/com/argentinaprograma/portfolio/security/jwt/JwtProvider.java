@@ -35,7 +35,6 @@ public class JwtProvider {
         return Jwts.builder().setSubject(user.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + expiration * 1000))
-                .claim("pid", user.getPerson().getId().toString())
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }

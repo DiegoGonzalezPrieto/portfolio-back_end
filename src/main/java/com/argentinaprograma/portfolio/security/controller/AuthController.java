@@ -92,9 +92,10 @@ public class AuthController {
         // get personId for JwtDto
         UserSecurity user = (UserSecurity) auth.getPrincipal();
         Long personId = user.getPerson().getId();
+		int userId = user.getUserId();
         
         UserDetails userDetails = (UserDetails) auth.getPrincipal();
-        JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities(), personId.toString());
+        JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities(), personId.toString(), Integer.toString(userId) );
         return new ResponseEntity<JwtDto>(jwtDto, HttpStatus.OK);
         
         
