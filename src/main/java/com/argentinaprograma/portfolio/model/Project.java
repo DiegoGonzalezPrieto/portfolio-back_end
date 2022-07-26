@@ -36,7 +36,7 @@ public class Project {
     private String description;
     private String repoUrl;
     
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval= true)
     private Image image;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

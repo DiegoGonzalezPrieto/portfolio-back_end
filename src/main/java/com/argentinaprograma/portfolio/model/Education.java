@@ -37,7 +37,7 @@ public class Education {
     private Year endYear;
     private boolean current;
     
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Image image;
     
     @Enumerated(EnumType.STRING)

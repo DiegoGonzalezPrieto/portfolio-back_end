@@ -36,7 +36,7 @@ public class WorkExp {
     private Year endYear;
     private boolean current;
     
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Image companyLogo;
     
     @Enumerated(EnumType.STRING)
