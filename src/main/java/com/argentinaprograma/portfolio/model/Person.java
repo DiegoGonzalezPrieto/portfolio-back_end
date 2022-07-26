@@ -34,9 +34,9 @@ public class Person {
     private String briefCv;
     
     // Images
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Image profPic;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval= true)
     private Image backPic;
     
     
